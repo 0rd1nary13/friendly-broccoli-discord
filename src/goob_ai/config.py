@@ -9,7 +9,7 @@ from typing import Final
 from dotenv import load_dotenv
 
 DEFAULT_TRANSLATION_MODEL: Final[str] = "gemini-2.5-flash"
-DEFAULT_TARGET_LANGUAGE: Final[str] = "简体中文"
+DEFAULT_TARGET_LANGUAGE: Final[str] = "English"
 DEFAULT_SESSION_NAME: Final[str] = "telegram_relay_session"
 DEFAULT_DISCORD_TIMEOUT_SECONDS: Final[float] = 12.0
 

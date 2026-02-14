@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 from google import genai
 from google.genai import types
 
@@ -21,9 +23,11 @@ class TranslationService:
         self._target_language: str = target_language
 
     async def translate(self, source_text: str) -> str:
-        """Translate source text into configured target language."""
+        """Translate Chinese source text into configured target language."""
         clean_text: str = source_text.strip()
         if not clean_text:
+            return ""
+        if not _contains_chinese_text(clean_text):
             return ""
 
         prompt: str = self._build_prompt(clean_text)
@@ -39,9 +43,16 @@ class TranslationService:
         return translated.strip() if translated else ""
 
     def _build_prompt(self, source_text: str) -> str:
-        """Build a deterministic translation prompt with target language."""
+        """Build a deterministic prompt for clean article-body translation."""
         return (
-            f"Translate the following text to {self._target_language}. "
-            "Keep structure, line breaks, and emojis.\n\n"
+            "Translate the following Chinese text into "
+            f"{self._target_language}. Keep facts, numbers, links, and line breaks.\n"
+            "Remove signatures, bylines, hashtags, source credits, and other "
+            "non-article metadata. Return only the translated article body.\n\n"
             f"{source_text}"
         )
+
+
+def _contains_chinese_text(text: str) -> bool:
+    """Return True when text contains CJK Unified Ideographs."""
+    return bool(re.search(r"[\u4e00-\u9fff]", text))

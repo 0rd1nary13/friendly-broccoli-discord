@@ -1,6 +1,6 @@
 # Telegram -> AI 翻译 -> Discord Relay
 
-这是一个适合 CS 学生和开发者的简洁项目：监听 Telegram 频道消息，调用 Gemini 模型翻译，再转发到 Discord Webhook。
+这是一个适合 CS 学生和开发者的简洁项目：监听 Telegram 频道消息，将中文翻译成英文，再转发到 Discord 指定频道的 Webhook。
 
 ## 技术栈
 
@@ -51,8 +51,8 @@ python -m goob_ai.main
 - `TELEGRAM_SOURCE_CHATS`（支持多个，用逗号分隔）
 - `GEMINI_API_KEY`
 - `GEMINI_MODEL`（默认 `gemini-2.5-flash`）
-- `TARGET_LANGUAGE`（默认 `简体中文`）
-- `DISCORD_WEBHOOK_URL`
+- `TARGET_LANGUAGE`（默认 `English`）
+- `DISCORD_WEBHOOK_URL`（在目标频道创建 Webhook，并填入该 URL）
 
 ## 4) Oracle Ampere 服务器常驻运行（systemd）
 
@@ -101,5 +101,6 @@ ruff check .
 ## 设计说明
 
 - 配置、翻译、发送、监听分层，便于后续替换组件
+- 仅处理包含中文的消息，并输出英文正文译文
 - 完整日志与异常捕获，避免单条消息导致进程退出
 - Discord 消息按 2000 字限制自动分段发送
