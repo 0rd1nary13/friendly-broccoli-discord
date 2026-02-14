@@ -1,7 +1,5 @@
 # Telegram -> AI 翻译 -> Discord Relay
 
-这是一个适合 CS 学生和开发者的简洁项目：监听 Telegram 频道消息，将中文翻译成英文，再转发到 Discord 指定频道的 Webhook。
-
 ## 技术栈
 
 - `Telethon`: 监听 Telegram 新消息
@@ -90,6 +88,26 @@ sudo systemctl status telegram-relay
 ```bash
 journalctl -u telegram-relay -f
 ```
+
+## 4.1) 关掉 Terminal 也继续运行（relayctl）
+
+如果你当前先在本机或普通 Linux 环境运行，不想依赖 systemd，可用项目内置脚本。
+
+```bash
+chmod +x scripts/relayctl.sh
+./scripts/relayctl.sh start
+./scripts/relayctl.sh status
+./scripts/relayctl.sh logs
+./scripts/relayctl.sh stop
+```
+
+说明：
+
+- `start`: 后台启动，关闭 terminal 后进程继续运行
+- `status`: 查看是否在运行
+- `logs`: 实时查看日志
+- `stop`: 停止后台进程
+- 日志文件在 `var/log/relay.log`
 
 ## 5) 运行测试与检查
 
